@@ -11,6 +11,6 @@ repositories {
 
 dependencies {
     def junitVersion = '5.0.1'
-    testCompile 'org.junit.jupiter:junit-jupiter-api:'junitVersion
+    testCompile 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
     testCompile 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
 }
