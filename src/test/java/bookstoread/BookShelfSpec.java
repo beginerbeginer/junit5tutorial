@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BookShelfSpec {
 
+  //本棚を作成したときに本が入っていない（つまり空である）ことをテストする
   @Test
   public void shelfEmptyWhenNoBookAdded() throws Exception {
     BookShelf shelf = new BookShelf();
