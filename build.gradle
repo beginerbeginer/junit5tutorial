@@ -5,12 +5,32 @@ plugins {
 group 'com.junit5book'
 version '1.0-SNAPSHOT'
 
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
 repositories {
     mavenCentral()
 }
 
+
+test {
+    // JUnit platform を使う設定
+    useJUnitPlatform()
+
+    testLogging {
+        // テスト時の標準出力と標準エラー出力を表示する
+        showStandardStreams true
+        // イベントを出力する (TestLogEvent)
+        events 'started', 'skipped', 'passed', 'failed'
+        // 例外発生時の出力設定 (TestExceptionFormat)
+        exceptionFormat 'full'
+    }
+}
+
+
 dependencies {
     def junitVersion = '5.0.1'
-    testCompile 'org.junit.jupiter:junit-jupiter-api:'junitVersion
+    testCompile 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
     testCompile 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
 }
