@@ -1,4 +1,4 @@
-package bookstoread;
+package src.main.java.bookstoread;
 
 import java.util.Collections;
 import java.util.List;
