@@ -33,4 +33,5 @@ dependencies {
     def junitVersion = '5.0.1'
     testCompile 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
     testCompile 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
+    //testCompile 'org.junit.platform:junit-platform-launcher: 1.0.1'
 }
