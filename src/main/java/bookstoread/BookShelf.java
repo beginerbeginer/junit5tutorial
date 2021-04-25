@@ -1,6 +1,7 @@
 package src.main.java.bookstoread;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BookShelf {
@@ -10,7 +11,7 @@ private final List<String> books = new ArrayList<>();
     return books;
   }
 
-  public void add(String bookToAdd) {
-    books.add(bookToAdd);
+  public void add(String... bookToAdd) {
+    Arrays.stream(bookToAdd).forEach(book -> books.add(book));
   }
 }
