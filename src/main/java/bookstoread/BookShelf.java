@@ -1,14 +1,16 @@
 package src.main.java.bookstoread;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-/*テストケースを通過させるために、BookShelf books メソッドの実装を変更
- *空のリストを返すようにした
- * */
-
 public class BookShelf {
+private final List<String> books = new ArrayList<>();
+
   public List<String> books() {
-    return Collections.emptyList();
+    return books;
+  }
+
+  public void add(String bookToAdd) {
+    books.add(bookToAdd);
   }
 }
