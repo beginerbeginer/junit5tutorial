@@ -12,6 +12,6 @@ private final List<String> books = new ArrayList<>();
   }
 
   public void add(String... bookToAdd) {
-    Arrays.stream(bookToAdd).forEach(book -> books.add(book));
+    Arrays.stream(bookToAdd).forEach(books::add);
   }
 }
