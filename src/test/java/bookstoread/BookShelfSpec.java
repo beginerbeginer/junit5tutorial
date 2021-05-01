@@ -22,13 +22,11 @@ public class BookShelfSpec {
     assertTrue(books.isEmpty(), () -> "BookShelf should be empty.");
   }
 
-
   @Test
-  void bookshelfContainsTwoBooksWhenTwoBooksAdded() {
+  public void bookshelfContainsTwoBooksWhenTwoBooksAdded() {
     BookShelf shelf = new BookShelf();
-    shelf.add("Effective Java", "Code Complete", "third");
+    shelf.add("Effective Java", "Code Complete");
     List<String> books = shelf.books();
     assertEquals(3, books.size(), () -> "BookShelf should have two books.");
   }
-
 }
