@@ -6,13 +6,17 @@ import java.util.Collections;
 import java.util.List;
 
 public class BookShelf {
-private final List<String> books = new ArrayList<>();
+    private final List<String> books = new ArrayList<>();
 
-  public List<String> books() {
-    return Collections.unmodifiableList(books);
-  }
+    public List<String> books() {
+        return Collections.unmodifiableList(books);
+    }
 
-  public void add(String... bookToAdd) {
-    Arrays.stream(bookToAdd).forEach(books::add);
-  }
+    public void add(String... bookToAdd) {
+        Arrays.stream(bookToAdd).forEach(books::add);
+    }
+
+    public List<String> arrange() {
+        return null;
+    }
 }
