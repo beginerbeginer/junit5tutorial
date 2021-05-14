@@ -3,6 +3,7 @@ package src.main.java.bookstoread;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class BookShelf {
@@ -17,6 +18,7 @@ public class BookShelf {
     }
 
     public List<String> arrange() {
-        return null;
+        books.sort(Comparator.naturalOrder());
+        return books;
     }
 }
