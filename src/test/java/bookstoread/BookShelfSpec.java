@@ -83,7 +83,5 @@ public class BookShelfSpec {
         List<Book> books = shelf.books();
         assertEquals(Arrays.asList(effectiveJava, codeComplete, mythicalManMonth), books,
                 () -> "Books in bookshelf are in insertion order");
-
     }
-
 }
