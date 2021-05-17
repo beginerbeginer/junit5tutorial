@@ -13,7 +13,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("A bookshelf")
 public class BookShelfSpec {
 
     private BookShelf shelf;
@@ -32,13 +31,14 @@ public class BookShelfSpec {
 
     // 本棚を作成したときに本が入っていない（つまり空である）ことをテストする
     @Test
-    @DisplayName("is empty when no book is added to it")
+    @DisplayName("bookshelf is empty when no book is added to it")
     void shelfEmptyWhenNoBookAdded() throws Exception {
         List<Book> books = shelf.books();
         assertTrue(books.isEmpty(), () -> "BookShelf should be empty.");
     }
 
     @Test
+    @DisplayName("bookshelf contains two books when two books added")
     public void bookshelfContainsTwoBooksWhenTwoBooksAdded() {
         shelf.add(effectiveJava, codeComplete);
         List<Book> books = shelf.books();
@@ -46,6 +46,7 @@ public class BookShelfSpec {
     }
 
     @Test
+    @DisplayName("empty bookshelf when add is called without books")
     public void emptyBookShelfWhenAddIsCalledWithoutBooks() {
         shelf.add();
         List<Book> books = shelf.books();
@@ -53,6 +54,7 @@ public class BookShelfSpec {
     }
 
     @Test
+    @DisplayName("books returned from bookshelf is immutable for client")
     void booksReturnedFromBookShelfIsImmutableForClient() {
         shelf.add(effectiveJava, codeComplete);
         List<Book> books = shelf.books();
@@ -65,6 +67,7 @@ public class BookShelfSpec {
     }
 
     @Test
+    @DisplayName("bookshelf is arranged lexicographically by book title")
     void bookshelfArrangedByBookTitle() {
         BookShelf shelf = new BookShelf();
         shelf.add(effectiveJava, codeComplete, mythicalManMonth);
@@ -75,6 +78,7 @@ public class BookShelfSpec {
 
     // arrange を呼び出した後、本棚の本は挿入順で並んでいること
     @Test
+    @DisplayName("books in bookshelf are in insertion order after calling arrange")
     void booksInBookShelfAreInInsertionOrderAfterCallingArrange() {
         shelf.add(effectiveJava, codeComplete, mythicalManMonth);
         shelf.arrange();
@@ -85,6 +89,7 @@ public class BookShelfSpec {
 
     // ユーザーが与えた基準で本棚を並べる（逆順で並んでいること）
     @Test
+    @DisplayName("bookshelf arranged by user provided criteria")
     void bookshelfArrangedByUserProvidedCriteria() {
         shelf.add(effectiveJava, codeComplete, mythicalManMonth);
         Comparator<Book> reversed = Comparator.<Book>naturalOrder().reversed();
