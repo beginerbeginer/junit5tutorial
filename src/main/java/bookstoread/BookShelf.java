@@ -23,6 +23,6 @@ public class BookShelf {
     }
 
     public List<Book> arrange(Comparator<Book> criteria) {
-        return null;
+        return books.stream().sorted(criteria).collect(Collectors.toList());
     }
 }
