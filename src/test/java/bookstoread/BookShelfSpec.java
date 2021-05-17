@@ -1,8 +1,8 @@
-package src.test.java.bookstoread;
+package bookstoread;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -10,12 +10,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import src.main.java.bookstoread.Book;
-import src.main.java.bookstoread.BookShelf;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("A bookshelf")
 public class BookShelfSpec {
@@ -91,10 +87,9 @@ public class BookShelfSpec {
     @Test
     void bookshelfArrangedByUserProvidedCriteria() {
         shelf.add(effectiveJava, codeComplete, mythicalManMonth);
-        List<Book> books = shelf.arrange(Comparator.<Book>naturalOrder().reversed());
-        assertEquals(Arrays.asList(mythicalManMonth, effectiveJava, codeComplete), books,
-                () -> "Books in a bookshelf are arranged in descending order of book title");
-    }
+        Comparator<Book> reversed = Comparator.<Book>naturalOrder().reversed();
+        List<Book> books = shelf.arrange(reversed);
+        assertThat(books).isSortedAccordingTo(reversed); }
 
     @Test
     @DisplayName("by book publication date in ascending order")
@@ -104,5 +99,4 @@ public class BookShelfSpec {
         assertEquals(Arrays.asList(mythicalManMonth, codeComplete, effectiveJava), books,
                 () -> "Books in a bookshelf are arranged by book publication date in ascending order");
     }
-
 }
