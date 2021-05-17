@@ -95,4 +95,14 @@ public class BookShelfSpec {
         assertEquals(Arrays.asList(mythicalManMonth, effectiveJava, codeComplete), books,
                 () -> "Books in a bookshelf are arranged in descending order of book title");
     }
+
+    @Test
+    @DisplayName("by book publication date in ascending order")
+    void bookshelfArrangedByAnotherUserProvidedCriteria() {
+        shelf.add(effectiveJava, codeComplete, mythicalManMonth);
+        List<Book> books = shelf.arrange((b1, b2) -> b1.getPublishedOn().compareTo(b2.getPublishedOn()));
+        assertEquals(Arrays.asList(mythicalManMonth, codeComplete, effectiveJava), books,
+                () -> "Books in a bookshelf are arranged by book publication date in ascending order");
+    }
+
 }
