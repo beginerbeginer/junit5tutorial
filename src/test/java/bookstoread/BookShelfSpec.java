@@ -6,10 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Year;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,14 +22,16 @@ public class BookShelfSpec {
     private Book effectiveJava;
     private Book codeComplete;
     private Book mythicalManMonth;
+    private Book cleanCode;
 
     @BeforeEach
     void init() throws Exception {
         shelf = new BookShelf();
         effectiveJava = new Book("Effective Java", "Joshua Bioch", LocalDate.of(2008, Month.MAY, 8));
         codeComplete = new Book("Code Complete", "Steve McConnel", LocalDate.of(2004, Month.JUNE, 9));
-        mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Pjillipes Brooks",
-                LocalDate.of(1975, Month.JANUARY, 1));
+        mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Pjillipes Brooks", LocalDate.of(1975, Month.JANUARY, 1));
+        cleanCode = new Book("Clean Code", "Robert C. Martin", LocalDate.of(2008, Month.AUGUST, 1));
+
     }
 
     // 本棚を作成したときに本が入っていない（つまり空である）ことをテストする
@@ -103,5 +108,28 @@ public class BookShelfSpec {
         List<Book> books = shelf.arrange((b1, b2) -> b1.getPublishedOn().compareTo(b2.getPublishedOn()));
         assertEquals(Arrays.asList(mythicalManMonth, codeComplete, effectiveJava), books,
                 () -> "Books in a bookshelf are arranged by book publication date in ascending order");
+    }
+
+    /**
+     * writing a Failing Test
+     */
+    @Test
+    @DisplayName("books inside bookshelf are grouped by publication year")
+    void groupedBooksInsideBookShelfByPublicationYear() {
+        shelf.add(effectiveJava, codeComplete, mythicalManMonth, cleanCode);
+
+        Map<Year, List<Book>> booksByPublicationYear = shelf.groupByPublicationYear();
+
+        assertThat(booksByPublicationYear)
+                .containsKey(Year.of(2008))
+                .containsValues(Arrays.asList(effectiveJava, cleanCode));
+
+        assertThat(booksByPublicationYear)
+                .containsKey(Year.of(2004))
+                .containsValues(singletonList(codeComplete));
+
+        assertThat(booksByPublicationYear)
+                .containsKey(Year.of(1975))
+                .containsValues(singletonList(mythicalManMonth));
     }
 }
