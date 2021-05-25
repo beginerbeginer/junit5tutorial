@@ -29,9 +29,9 @@ public class BookShelfSpec {
     @BeforeEach
     void init() throws Exception {
         shelf = new BookShelf();
-        effectiveJava = new Book("Effective Java", "Joshua Bioch", LocalDate.of(2008, Month.MAY, 8));
+        effectiveJava = new Book("Effective Java", "Joshua Bloch", LocalDate.of(2008, Month.MAY, 8));
         codeComplete = new Book("Code Complete", "Steve McConnel", LocalDate.of(2004, Month.JUNE, 9));
-        mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Pjillipes Brooks", LocalDate.of(1975, Month.JANUARY, 1));
+        mythicalManMonth = new Book("The Mythical Man-Month", "Frederick Phillips Brooks", LocalDate.of(1975, Month.JANUARY, 1));
         cleanCode = new Book("Clean Code", "Robert C. Martin", LocalDate.of(2008, Month.AUGUST, 1));
 
     }
@@ -158,5 +158,28 @@ public class BookShelfSpec {
                     .containsValues(singletonList(mythicalManMonth));
         }
 
+        // 本棚の本は、ユーザーが指定した基準でグループ化されます（著者名でグループ化）
+        @Test
+        @DisplayName("user provided criteria(group by author name)")
+        void groupBooksByUserProvidedCriteria() {
+            shelf.add(effectiveJava, codeComplete, mythicalManMonth, cleanCode);
+            Map<String, List<Book>> booksByAuthor = shelf.groupBy(Book::getAuthor);
+
+            assertThat(booksByAuthor)
+                    .containsKey("Joshua Bloch")
+                    .containsValues(singletonList(effectiveJava));
+
+            assertThat(booksByAuthor)
+                    .containsKey("Steve McConnel")
+                    .containsValues(singletonList(codeComplete));
+
+            assertThat(booksByAuthor)
+                    .containsKey("Frederick Phillips Brooks")
+                    .containsValues(singletonList(mythicalManMonth));
+
+            assertThat(booksByAuthor)
+                    .containsKey("Robert C. Martin")
+                    .containsValues(singletonList(cleanCode));
+        }
     }
 }
