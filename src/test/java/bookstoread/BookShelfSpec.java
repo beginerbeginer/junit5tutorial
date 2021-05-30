@@ -36,6 +36,14 @@ public class BookShelfSpec {
 
     }
 
+    @Test
+    @DisplayName("is 0% completed and 100% to-read when no book is read yet")
+    void progress100PercentUnread() {
+        Progress progress = shelf.progress();
+        assertThat(progress.completed()).isEqualTo(0);
+        assertThat(progress.toRead()).isEqualTo(100);
+    }
+
     @Nested
     @DisplayName("is empty")
     class IsEmpty {
