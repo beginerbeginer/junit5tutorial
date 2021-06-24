@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class BooksParameterResolver implements ParameterResolver {
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+    public boolean supportsParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
             throws ParameterResolutionException {
 
         Parameter parameter = parameterContext.getParameter();
@@ -20,7 +20,7 @@ public class BooksParameterResolver implements ParameterResolver {
     }
 
     @Override
-    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
+    public Object resolveParameter(final ParameterContext parameterContext, final ExtensionContext extensionContext)
             throws ParameterResolutionException {
 
         /*
