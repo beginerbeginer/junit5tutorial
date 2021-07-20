@@ -25,6 +25,7 @@ public class BookShelfSpec {
     private Book codeComplete;
     private Book mythicalManMonth;
     private Book cleanCode;
+    private Book refactoring;
 
     @BeforeEach
     void init(Map<String, Book> books) {
@@ -33,14 +34,7 @@ public class BookShelfSpec {
         this.codeComplete = books.get("Code Complete");
         this.mythicalManMonth = books.get("The Mythical Man-Month");
         this.cleanCode = books.get("Clean Code");
-    }
-
-    @Test
-    @DisplayName("is 0% completed and 100% to-read when no book is read yet")
-    void progress100PercentUnread() {
-        Progress progress = shelf.progress();
-        assertThat(progress.completed()).isEqualTo(0);
-        assertThat(progress.toRead()).isEqualTo(100);
+        this.refactoring = books.get("Refactoring: Improving the Design of Existing Code");
     }
 
     @Nested

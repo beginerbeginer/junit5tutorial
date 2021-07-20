@@ -12,6 +12,11 @@ public class Progress {
         this.inProgress = inProgress;
     }
 
+    public static Progress notStarted() {
+        return new Progress(0, 0, 0);
+    }
+
+
     public int completed() {
         return this.completed;
     }

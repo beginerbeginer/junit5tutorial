@@ -88,3 +88,5 @@ gradle-app.setting
 
 logs/
 *.log
+
+.idea/
