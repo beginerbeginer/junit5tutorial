@@ -33,4 +33,40 @@ class BookFilterSpec {
             assertFalse(filter.apply(codeComplete));
         }
     }
+
+    /**
+     * 複合条件が正しく機能することを確認するために、複数のフィルターを使用する
+     */
+    @Test
+    @DisplayName("Composite criteria is based on multiple filters") //意味：
+    void shouldFilterOnMultiplesCriteria(){
+        CompositeFilter compositeFilter = new CompositeFilter();
+        compositeFilter.addFilter(book -> false); //意味：book -> falseは、bookを受け取ってfalseを返すラムダ式
+        assertFalse(compositeFilter.apply(cleanCode)); //
+    }
+
+    /**
+     * 複合条件は最初の失敗の後、起動しない。
+     */
+    @Test
+    @DisplayName("Composite criteria does not invoke after first failure")
+    void shouldNotInvokeAfterFirstFailure(){
+        CompositeFilter compositeFilter = new CompositeFilter();
+        compositeFilter.addFilter( b -> false);
+        compositeFilter.addFilter( b -> true);
+        assertFalse(compositeFilter.apply(cleanCode));
+    }
+
+    /**
+     * 複合条件はすべてのフィルタを呼び出す
+     */
+    /
+    @Test
+    @DisplayName("Composite criteria invokes all filters")
+    void shouldInvokeAllFilters(){
+        CompositeFilter compositeFilter = new CompositeFilter();
+        compositeFilter.addFilter( b -> true);
+        compositeFilter.addFilter( b -> true);
+        assertTrue(compositeFilter.apply(cleanCode));
+    }
 }
