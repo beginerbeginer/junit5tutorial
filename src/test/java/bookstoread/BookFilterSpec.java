@@ -11,6 +11,7 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+//publicをつけず同じパッケージ外からアクセスできないようにする長所：テストのみに使うクラスなので、パッケージ外からアクセスできないことで、テストのみに使うクラスであることを明示できる
 class BookFilterSpec {
     private Book cleanCode;
     private Book codeComplete;
