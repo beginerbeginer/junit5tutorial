@@ -1,5 +1,10 @@
 package bookstoread;
 
+/**
+ * @param completed すでに読了しているページの割合
+ * @param toRead 残りページの割合
+ * @param inProgress 読了したページの割合
+ */
 public class Progress {
 
     private final int completed;

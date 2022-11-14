@@ -6,10 +6,10 @@ public interface BookFilter {
   boolean apply(Book book);
 }
 
+/**
+ * @param startDate 開始日
+ */
 class BookPublishedYearFilter implements BookFilter {
-  /**
-   * startDate 開始日
-   */
   private LocalDate startDate;
   /**
    * 引数yearよりも後に出版された本か判定する
@@ -23,11 +23,11 @@ class BookPublishedYearFilter implements BookFilter {
     return filter;
   }
 
+  /**
+   * @return 本の出版日がstartDateよりも後の場合true
+   */
   @Override
   public boolean apply(final Book book) { //finalの理由：本の情報を変更することはないため
-    /**
-     * @return 本の出版日がstartDateよりも後の場合true
-     */
     return book.getPublishedOn().isAfter(startDate);
   }
 }
