@@ -60,7 +60,6 @@ class BookFilterSpec {
     /**
      * 複合条件はすべてのフィルタを呼び出す
      */
-    /
     @Test
     @DisplayName("Composite criteria invokes all filters")
     void shouldInvokeAllFilters(){

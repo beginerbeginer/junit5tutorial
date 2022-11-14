@@ -1,6 +1,8 @@
 package bookstoread;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface BookFilter {
   boolean apply(Book book);
@@ -29,5 +31,24 @@ class BookPublishedYearFilter implements BookFilter {
   @Override
   public boolean apply(final Book book) { //finalの理由：本の情報を変更することはないため
     return book.getPublishedOn().isAfter(startDate);
+  }
+}
+
+class CompositeFilter implements BookFilter {
+  private List<BookFilter> filters;
+
+  CompositeFilter() {
+    filters = new ArrayList<>();
+  }
+
+  @Override
+  public boolean apply(final Book b) {
+    return filters.stream()
+            .map(bookFilter -> bookFilter.apply(b))
+            .reduce(true, (b1, b2) -> b1 && b2);
+  }
+
+  void addFilter(final BookFilter bookFilter) {
+    filters.add(bookFilter);
   }
 }
