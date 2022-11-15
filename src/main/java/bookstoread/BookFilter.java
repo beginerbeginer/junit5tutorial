@@ -3,16 +3,15 @@ package bookstoread;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public interface BookFilter {
   boolean apply(Book book);
 }
 
-/**
- * @param startDate 開始日
- */
 class BookPublishedYearFilter implements BookFilter {
-  private LocalDate startDate;
+
+  private Function<LocalDate, Boolean> comparison;
   /**
    * 引数yearよりも後に出版された本か判定する
    * @param year 年
@@ -20,21 +19,37 @@ class BookPublishedYearFilter implements BookFilter {
    * @param day 日
    */
   static BookPublishedYearFilter After(int year) {
+    final LocalDate date = LocalDate.of(year, 12, 31);
     BookPublishedYearFilter filter = new BookPublishedYearFilter();
-    filter.startDate = LocalDate.of(year, 12, 31);
+    filter.comparison = date::isBefore;
     return filter;
   }
 
   /**
-   * @return 本の出版日がstartDateよりも後の場合true
+   * 引数yearよりも前に出版された本か判定する（isBeforeではなくisAfterメソッドにする理由：引数yearよりも大きい値が入った場合にfalseを返したいから）
+   * @param year 年
+   * @param month 月
+   * @param day 日
+   */
+  static BookPublishedYearFilter Before(int year) {
+    final LocalDate date = LocalDate.of(year, 1, 1);
+    BookPublishedYearFilter filter = new BookPublishedYearFilter();
+    filter.comparison = date::isAfter;
+    return filter;
+  }
+
+  /**
+   * @param book 本のタイトル+著者+出版日
+   * @return 引数bookがnullではない＆comparisonに出版日の値を渡し、真偽値を返す
    */
   @Override
-  public boolean apply(final Book book) { //finalの理由：本の情報を変更することはないため
-    return book.getPublishedOn().isAfter(startDate);
+  public boolean apply(final Book book) { //final：本の情報を変更することはないため
+    return book!=null && comparison.apply(book.getPublishedOn());
   }
 }
 
 class CompositeFilter implements BookFilter {
+  //finalをつけない理由：addFilterメソッドでfiltersに値を追加するケースがあるため
   private List<BookFilter> filters;
 
   CompositeFilter() {

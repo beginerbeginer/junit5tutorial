@@ -32,6 +32,17 @@ class BookFilterSpec {
             assertTrue(filter.apply(cleanCode));
             assertFalse(filter.apply(codeComplete));
         }
+
+        /**
+         * 処理の説明：filter(2007年1月1日)はcleanCode(2008年8月1日)よりも後(isAfter)ではない→filterはcleanCodeより前である
+         */
+        @Test
+        @DisplayName("is before specified year")
+        void validateBookPublishedDatePostPreAskedYear(){
+            BookFilter filter = BookPublishedYearFilter.Before(2007);
+            assertFalse(filter.apply(cleanCode));
+            assertTrue(filter.apply(codeComplete));
+        }
     }
 
     /**
