@@ -52,7 +52,7 @@ class BookFilterSpec {
     @DisplayName("Composite criteria is based on multiple filters") //意味：
     void shouldFilterOnMultiplesCriteria(){
         CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.addFilter(book -> false); //意味：book -> falseは、bookを受け取ってfalseを返すラムダ式
+        compositeFilter.addFilter(bookFilter -> false); //意味：addFilterメソッドに引数bookFilterを渡す。戻り値はfalse。”->”はラムダ式の記法。bookFilterは引数、falseは戻り値
         assertFalse(compositeFilter.apply(cleanCode)); //
     }
 
@@ -63,8 +63,8 @@ class BookFilterSpec {
     @DisplayName("Composite criteria does not invoke after first failure")
     void shouldNotInvokeAfterFirstFailure(){
         CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.addFilter( b -> false);
-        compositeFilter.addFilter( b -> true);
+        compositeFilter.addFilter( bookFilter -> false);
+        compositeFilter.addFilter( bookFilter -> true);
         assertFalse(compositeFilter.apply(cleanCode));
     }
 
@@ -75,8 +75,8 @@ class BookFilterSpec {
     @DisplayName("Composite criteria invokes all filters")
     void shouldInvokeAllFilters(){
         CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.addFilter( b -> true);
-        compositeFilter.addFilter( b -> true);
+        compositeFilter.addFilter( bookFilter -> true);
+        compositeFilter.addFilter( bookFilter -> true);
         assertTrue(compositeFilter.apply(cleanCode));
     }
 }
