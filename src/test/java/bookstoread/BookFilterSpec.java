@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -63,9 +64,18 @@ class BookFilterSpec {
     @DisplayName("Composite criteria does not invoke after first failure")
     void shouldNotInvokeAfterFirstFailure(){
         CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.addFilter( bookFilter -> false);
-        compositeFilter.addFilter( bookFilter -> true);
+
+        BookFilter invokedMockedFilter = Mockito.mock(BookFilter.class);
+        Mockito.when(invokedMockedFilter.apply(cleanCode)).thenReturn(false);
+        compositeFilter.addFilter(invokedMockedFilter);
+
+        BookFilter notInvokedMockedFilter = Mockito.mock(BookFilter.class);
+        Mockito.when(notInvokedMockedFilter.apply(cleanCode)).thenReturn(true);
+        compositeFilter.addFilter(notInvokedMockedFilter);
+
         assertFalse(compositeFilter.apply(cleanCode));
+        Mockito.verify(invokedMockedFilter).apply(cleanCode);
+        Mockito.verifyZeroInteractions(notInvokedMockedFilter);
     }
 
     /**
@@ -75,8 +85,33 @@ class BookFilterSpec {
     @DisplayName("Composite criteria invokes all filters")
     void shouldInvokeAllFilters(){
         CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.addFilter( bookFilter -> true);
-        compositeFilter.addFilter( bookFilter -> true);
+
+        BookFilter firstInvokedMockedFilter = Mockito.mock(BookFilter.class);
+        Mockito.when(firstInvokedMockedFilter.apply(cleanCode)).thenReturn(true);
+        compositeFilter.addFilter(firstInvokedMockedFilter);
+
+        BookFilter secondInvokedMockedFilter = Mockito.mock(BookFilter.class);
+        Mockito.when(secondInvokedMockedFilter.apply(cleanCode)).thenReturn(true);
+        compositeFilter.addFilter(secondInvokedMockedFilter);
+
         assertTrue(compositeFilter.apply(cleanCode));
+        Mockito.verify(firstInvokedMockedFilter).apply(cleanCode);
+        Mockito.verify(secondInvokedMockedFilter).apply(cleanCode);
     }
+
+    class MockedFilter implements BookFilter {
+        boolean returnValue;
+        boolean invoked;
+
+        MockedFilter(boolean returnValue) {
+            this.returnValue = returnValue;
+        }
+
+        @Override
+        public boolean apply(Book b) {
+            invoked = true;
+            return returnValue;
+        }
+    }
+
 }
