@@ -81,15 +81,19 @@ class BookFilterSpec {
     }
 
     /**
-     * フィルターが正しく機能することを検証するためのテスト<br>
-     * フィルターを呼び出し、フィルターが入力をされた値を受け取った際に、期待される出力を返す
+     * フィルターが正しく処理されたことを検証するためのテスト<br>
+     * フィルターを呼び出し、フィルターが入力をされた値を処理し、期待される出力を返す
      */
     @Test
-    @DisplayName("Composite criteria is based on multiple filters(複合条件が正しく機能することを確認するために、複数のフィルターを使用する)")
+    @DisplayName("Composite criteria invokes multiple filters")
     void shouldFilterOnMultiplesCriteria(){
+        BookFilter mockedFilter = Mockito.mock(BookFilter.class);
+        Mockito.when(mockedFilter.apply(cleanCode)).thenReturn(true);
+
         CompositeFilter compositeFilter = new CompositeFilter();
-        compositeFilter.addFilter(bookFilter -> false); //意味：addFilterメソッドに引数bookFilterを渡す。戻り値はfalse。”->”はラムダ式の記法。bookFilterは引数、falseは戻り値
-        assertFalse(compositeFilter.apply(cleanCode)); //
+        compositeFilter.addFilter(mockedFilter);
+        compositeFilter.apply(cleanCode);
+        Mockito.verify(mockedFilter).apply(cleanCode);
     }
 
     @Test
