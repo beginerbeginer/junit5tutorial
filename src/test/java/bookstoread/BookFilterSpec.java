@@ -80,6 +80,10 @@ class BookFilterSpec {
         }
     }
 
+    /**
+     * フィルターが正しく機能することを検証するためのテスト<br>
+     * フィルターを呼び出し、フィルターが入力をされた値を受け取った際に、期待される出力を返す
+     */
     @Test
     @DisplayName("Composite criteria is based on multiple filters(複合条件が正しく機能することを確認するために、複数のフィルターを使用する)")
     void shouldFilterOnMultiplesCriteria(){
