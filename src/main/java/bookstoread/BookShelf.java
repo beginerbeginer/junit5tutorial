@@ -3,9 +3,11 @@ package bookstoread;
 import java.time.Year;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 public class BookShelf {
     private final List<Book> books = new ArrayList<>();
@@ -34,5 +36,31 @@ public class BookShelf {
         return books
                 .stream()
                 .collect(groupingBy(fx));
+    }
+
+    public Progress progress() {
+        if  (books.isEmpty()) {
+            return Progress.notStarted();
+        }
+        int booksRead = Long.valueOf(books.stream().filter(Book::isRead).count()).intValue();
+        int booksInProgress = Long.valueOf(books.stream().filter(Book::isProgress).count()).intValue();
+        int booksToRead = books.size() - booksRead - booksInProgress;
+
+        int percentageCompleted = booksRead * 100 / books.size();
+        int percentageToRead = booksToRead * 100 / books.size();
+        int percentageInProgress = booksInProgress * 100 / books.size();
+
+        return new Progress(percentageCompleted, percentageToRead, percentageInProgress);
+    }
+
+    public List<Book> findBooksByTitle(String title) {
+        return findBooksByTitle(title, b -> true);
+    }
+
+    public List<Book> findBooksByTitle(String title, Predicate<Book> filter) {
+        return books.stream()
+                .filter(b -> b.getTitle().toLowerCase().contains(title))
+                .filter(filter)
+                .collect(toList());
     }
 }

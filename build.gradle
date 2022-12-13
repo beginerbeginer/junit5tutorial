@@ -28,10 +28,20 @@ test {
     }
 }
 
-
+/**
+ * gradle4.7以降testCompileは非推奨になりtestImplementationに置き換え　参照URL：https://docs.gradle.org/4.7/userguide/java_plugin.html#sec:java_plugin_and_dependency_management
+ * compileではなくimplementationを使うメリットの説明：https://docs.gradle.org/current/userguide/java_library_plugin.html
+ *
+ * testImplementationを使うと、テスト実行時に必要なライブラリだけがクラスパスに追加される
+ * これにより、テスト実行時に必要なライブラリのみがクラスパスに追加される
+ * testCompileは、テスト実行時に必要なライブラリだけでなく、ビルド時に必要なライブラリもクラスパスに追加される
+ * これにより、ビルド時に必要なライブラリがテスト実行時にも必要になる。
+ */
 dependencies {
     def junitVersion = '5.0.1'
-    testCompile 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
-    testCompile 'org.assertj:assertj-core:3.19.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:' + junitVersion
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:' + junitVersion
+    testImplementation 'org.assertj:assertj-core:3.19.0'
+    testCompileOnly 'org.apiguardian:apiguardian-api:1.1.2'
+    testImplementation 'org.mockito:mockito-core:2.+'
 }
